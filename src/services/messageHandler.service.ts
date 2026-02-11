@@ -1,13 +1,15 @@
 import { protocols } from "../config/agent.protocol.js";
-import {
-  Client as ClientType,
-  Message as MessageType,
-} from "whatsapp-web.js";
+import { Client as ClientType, Message as MessageType } from "whatsapp-web.js";
 import { handleCommand } from "./command.service.js";
+import { getHistory, storeMessage } from "./memory.service.js";
 
-export const handleMessages = async (
-  message: MessageType,
-): Promise<void> => {
+export const handleMessages = async (message: MessageType): Promise<void> => {
+  // storing
+  const userId = message.from;
+  storeMessage(userId, message.body);
+  const history = getHistory(userId);
+  console.log("History:", history);
+
   // Ignore messages from groups
   if (message.from.endsWith("@g.us") && !protocols.allowGroupReplies) {
     console.log("Received a message from a group. Ignoring...");
