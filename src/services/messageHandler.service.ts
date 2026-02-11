@@ -2,6 +2,7 @@ import { protocols } from "../config/agent.protocol.js";
 import { Client as ClientType, Message as MessageType } from "whatsapp-web.js";
 import { handleCommand } from "./command.service.js";
 import { getHistory, storeMessage } from "./memory.service.js";
+import { runAgent } from "../agents/agent.servce.js";
 
 export const handleMessages = async (message: MessageType): Promise<void> => {
   // storing
@@ -37,5 +38,9 @@ export const handleMessages = async (message: MessageType): Promise<void> => {
     await message.reply(
       `Hi ${name}! I'm ${protocols.name}. Asad is currently busy, so I’ll be handling the conversation for now. How can I help you today?`,
     );
+  } else {
+    const reply = await runAgent(userId, text);
+    await message.reply(reply);
+    storeMessage(userId, reply);
   }
 };

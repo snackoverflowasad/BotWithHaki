@@ -1,11 +1,17 @@
 import { tool } from "@openai/agents";
+import { z } from "zod";
 import { contacts } from "../data/data.js";
 
-export const starredContacts = tool({
-  name: "Close Contacts",
-  description: "Get the user's starred/important/favourite contacts",
-  parameters: undefined,
+export const getStarredContacts = tool({
+  name: "get_starred_contacts",
+  description: "Returns the user's important and close contact groups.",
+
+  parameters: z.object({}),
+
   execute: async () => {
-    return [contacts.importants.number, contacts.friends.number];
+    return {
+      importants: contacts.importants,
+      friends: contacts.friends,
+    };
   },
 });
