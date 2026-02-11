@@ -4,3 +4,12 @@ export interface protocolType {
     allowBadWords: boolean;
     description: string;
 }
+
+type ContactGroup = {
+  number: number[];
+};
+
+export type Contacts = {
+  importants: ContactGroup;
+  friends: ContactGroup;
+};
