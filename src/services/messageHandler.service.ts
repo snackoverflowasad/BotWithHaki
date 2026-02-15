@@ -3,6 +3,7 @@ import { runAgent } from "../agents/agent.servce.js";
 import { botRebootTime } from "../bot.js";
 import { protocols } from "../config/agent.protocol.js";
 import { storeMessage } from "./memory.service.js";
+import { handleCommand } from "./command.service.js";
 
 export const handleMessages = async (message: MessageType): Promise<void> => {
   // Ignore bot's own messages
@@ -30,7 +31,7 @@ export const handleMessages = async (message: MessageType): Promise<void> => {
 
   // Commands
   if (text.startsWith("/")) {
-    await handleMessages(message);
+    await handleCommand(message, text);
     return;
   }
 

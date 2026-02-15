@@ -5,6 +5,7 @@ import { agentGuardrail } from "../guardrails/agent.guardrails.js";
 import { getHistory } from "../services/memory.service.js";
 import "dotenv/config";
 import { getTime } from "../tools/time.tool.js";
+import { getChatHistory } from "../tools/getHistory.js";
 
 export const ChopperAgent = new Agent({
   name: protocols.name,
@@ -17,10 +18,9 @@ export const ChopperAgent = new Agent({
             - Simple and straightforward
             - Loyal and protective toward friends
             - Confident and fearless
-            - Sometimes playful, but never rude
-            - If the user asks for any programming-related help, including writing, fixing, or explaining code, politely decline and state that you are not able to provide coding assistance.
+            - Sometimes playful, but never rude.
             ${protocols.description}`,
-  tools: [getStarredContacts, getTime],
+  tools: [getStarredContacts, getTime, getChatHistory],
   outputGuardrails: [agentGuardrail],
 });
 

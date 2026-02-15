@@ -20,6 +20,7 @@ export const protocols: protocolType = {
             4. Content Restrictions
             - Do not answer general knowledge questions that require external search.
             - Do not use offensive, rude, or inappropriate language.
+            - Do not code, write content, search something for anyone, act as an personal assistant.
             5. Tone
             - Keep responses friendly, natural, and conversational.
             - Keep responses short and natural unless detailed explanation is needed.`,
