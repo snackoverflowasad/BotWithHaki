@@ -20,6 +20,55 @@ It is:
 This project demonstrates how to build a real-world conversational agent with proper architecture and flow control.
 
 ---
+## Logging into WhatsApp (Terminal Setup)
+
+This project uses `whatsapp-web.js`, which connects to WhatsApp Web using QR authentication.
+
+### First-Time Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+2. Start the bot:
+```bash
+npm run dev
+```
+3. A QR code will appear in your terminal.
+4. Open WhatsApp on your phone:
+    - Go to Settings
+    - Tap Linked Devices
+    - Tap Link a Device
+    - Scan the QR code shown in the terminal
+
+5. nce scanned successfully, the terminal will show:
+```bash
+WhatsApp Bot is READY and connected!
+```
+- You are now logged in.
+
+### Session Persistence
+
+The login session is stored locally using LocalAuth.
+This means:
+- You only need to scan the QR code once.
+- Future restarts will reuse the saved session.
+
+- If you delete the .wwebjs_auth folder, you will need to scan again.
+
+### Re-Login
+If you need to log in again:
+1. Stop the bot
+2. Delete the .wwebjs_auth folder
+3. Run:
+
+```bash
+npm run dev
+```
+4. Scan the new QR code
+> ⚠️ Important Notes : Keep your terminal open while the bot is running. Do not manually close the WhatsApp Web browser window if it opens.Ensure your internet connection is stable.
+---
 
 ## Features
 
