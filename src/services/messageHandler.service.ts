@@ -19,7 +19,10 @@ export const handleMessages = async (message: MessageType): Promise<void> => {
   const text = message.body.trim().toLowerCase();
 
   // Ignore groups if disabled
-  if (message.from.endsWith("@g.us") && !protocols.allowGroupReplies) {
+  if (
+    (message.from.endsWith("@g.us") && !protocols.allowGroupReplies) ||
+    message.from === "status@broadcast"
+  ) {
     return;
   }
 
