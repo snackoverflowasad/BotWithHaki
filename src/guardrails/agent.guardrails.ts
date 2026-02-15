@@ -1,15 +1,25 @@
 import { Agent, OutputGuardrail, run } from "@openai/agents";
 import z from "zod";
+// import { handleMessages } from "../services/messageHandler.service.js";
 
 export const agentGuardrail: OutputGuardrail = {
-  name: "Output Guardrail",
+  name: "output_guardrail",
   execute: async (args) => {
-    const agentOutput = args.agentOutput as string;
-    const res = await run(checkOutput, agentOutput);
-    return {
-      outputInfo: res.finalOutput?.outputInfo,
-      tripwireTriggered: !res.finalOutput?.isSafe,
-    };
+    try {
+      const agentOutput = args.agentOutput as string;
+      const res = await run(checkOutput, agentOutput);
+      const isSafe = res.finalOutput?.isSafe === true;
+      return {
+        outputInfo: res.finalOutput?.outputInfo ?? null,
+        tripwireTriggered: !isSafe,
+      };
+    } catch (error) {
+      console.error("Guardrail execution error:", error);
+      return {
+        outputInfo: "Guardrail internal error",
+        tripwireTriggered: false,
+      };
+    }
   },
 };
 

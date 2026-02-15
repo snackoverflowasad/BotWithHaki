@@ -1,46 +1,53 @@
-import { protocols } from "../config/agent.protocol.js";
-import { Client as ClientType, Message as MessageType } from "whatsapp-web.js";
-import { handleCommand } from "./command.service.js";
-import { getHistory, storeMessage } from "./memory.service.js";
+import { Message as MessageType } from "whatsapp-web.js";
 import { runAgent } from "../agents/agent.servce.js";
+import { botRebootTime } from "../bot.js";
+import { protocols } from "../config/agent.protocol.js";
+import { storeMessage } from "./memory.service.js";
 
 export const handleMessages = async (message: MessageType): Promise<void> => {
-  // storing
+  // Ignore bot's own messages
+  if (message.fromMe) return;
+
+  // Ignore old synced messages
+  if (message.timestamp * 1000 < botRebootTime) return;
+
+  //  Ignore empty
+  if (!message.body) return;
+
   const userId = message.from;
-  storeMessage(userId, message.body);
-  const history = getHistory(userId);
-  console.log("History:", history);
+  const text = message.body.trim().toLowerCase();
 
-  // Ignore messages from groups
+  // Ignore groups if disabled
   if (message.from.endsWith("@g.us") && !protocols.allowGroupReplies) {
-    console.log("Received a message from a group. Ignoring...");
-    return;
-  }
-  // ignoring empty message
-  if (!message.body) {
     return;
   }
 
-  // message and contact logic
+  // Store normalized message
+  storeMessage(userId, text);
   const contact = await message.getContact();
   const name = contact.pushname || contact.number;
-  const text = message.body.trim().toLowerCase();
-  console.log("New Message Received:");
-  console.log("From Name:", name);
-  console.log("Message:", text);
+  console.log(`${name}: ${text}`);
 
-  // handling specific commands
+  // Commands
   if (text.startsWith("/")) {
-    await handleCommand(message, text);
+    await handleMessages(message);
+    return;
   }
 
-  if (text == "hi" || text == "hello" || text == "hey") {
+  // Greeting shortcut
+  if (["hi", "hello", "hey"].includes(text)) {
     await message.reply(
       `Hi ${name}! I'm ${protocols.name}. Asad is currently busy, so I’ll be handling the conversation for now. How can I help you today?`,
     );
-  } else {
+    return;
+  }
+
+  // agent reply
+  try {
     const reply = await runAgent(userId, text);
     await message.reply(reply);
-    storeMessage(userId, reply);
+  } catch (error) {
+    console.log("Tripwire triggered:", error);
+    await message.reply("I cannot respond to that request.");
   }
 };

@@ -4,7 +4,6 @@ import { Client as ClientType } from "whatsapp-web.js";
 import { handleMessages } from "./services/messageHandler.service.js";
 
 const { Client, LocalAuth } = pkg;
-
 export class WhatsAppBot {
   private client: ClientType;
 
@@ -59,3 +58,4 @@ export class WhatsAppBot {
     this.client.initialize();
   }
 }
+export const botRebootTime = Date.now();
