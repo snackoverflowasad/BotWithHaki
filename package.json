@@ -9,7 +9,7 @@
     "start": "npx tsc"
   },
   "author": "Asad Hussain",
-  "license": "ISC",
+  "license": "MIT",
   "description": "",
   "dependencies": {
     "@openai/agents": "^0.4.6",
