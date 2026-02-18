@@ -4,3 +4,5 @@ dist/
 .wwebjs_auth
 .wwebjs_cache
 src/data
+credentials.json
+token.json
