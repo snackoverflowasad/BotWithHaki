@@ -1,4 +1,4 @@
-const memoryStore = new Map<string, string[]>();
+export const memoryStore = new Map<string, string[]>();
 
 const MAX_HISTORY = 15;
 
