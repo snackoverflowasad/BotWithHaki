@@ -6,6 +6,7 @@ import { getHistory } from "../services/memory.service.js";
 import "dotenv/config";
 import { getTime } from "../tools/time.tool.js";
 import { getChatHistory } from "../tools/getHistory.js";
+import { setReminderandMeetAgent } from "./setEvent.service.js";
 
 export const ChopperAgent = new Agent({
   name: protocols.name,
@@ -19,8 +20,14 @@ export const ChopperAgent = new Agent({
             - Loyal and protective toward friends
             - Confident and fearless
             - Sometimes playful, but never rude.
-            ${protocols.description}`,
+            ${protocols.description}
+            - If the user wants to create a reminder or meeting,
+              handoff to the Calendar Agent.
+            - Otherwise, respond normally.
+            - Keep responses short and conversational (WhatsApp style).
+            - Always generate ISO datetime using Asia/Kolkata timezone (UTC+05:30).`,
   tools: [getStarredContacts, getTime, getChatHistory],
+  handoffs: [setReminderandMeetAgent],
   outputGuardrails: [agentGuardrail],
 });
 
