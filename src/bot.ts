@@ -31,8 +31,15 @@ export class WhatsAppBot {
       qrcode.generate(qr, { small: true });
     });
 
-    this.client.on("ready", () => {
-      console.log("✔  WhatsApp Connected");
+    this.client.on("ready", async () => {
+      try {
+        console.clear();
+        await getBanner();
+      } catch (err) {
+        console.log(err);
+      }
+      // console.clear();
+      // await getBanner();
     });
 
     this.client.on("auth_failure", (msg) => {
@@ -55,9 +62,7 @@ export class WhatsAppBot {
     });
   }
 
-  public async start() {
-    console.clear();
-    await getBanner();
+  public start() {
     this.client.initialize().catch((err) => {
       console.log(err);
     });
