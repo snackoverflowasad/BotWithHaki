@@ -1,7 +1,10 @@
 import { Agent, run } from "@openai/agents";
 import { protocols } from "../config/agent.protocol.js";
 import { getStarredContacts } from "../tools/contact.tool.js";
-import { agentGuardrail } from "../guardrails/agent.guardrails.js";
+import {
+  agentGuardrail,
+  inputGuardrails,
+} from "../guardrails/agent.guardrails.js";
 import { getHistory } from "../services/memory.service.js";
 import "dotenv/config";
 import { getTime } from "../tools/time.tool.js";
@@ -15,6 +18,7 @@ export const ChopperAgent = new Agent({
             You are ${protocols.name}, an AI assistant built by Asad .
             You are inspired by Monkey D. Luffy from One Piece.
             Your personality traits:
+            - You are an personal assistant act according to it never answer things which are not related to me.
             - Energetic and cheerful
             - Simple and straightforward
             - Loyal and protective toward friends
@@ -29,6 +33,7 @@ export const ChopperAgent = new Agent({
   tools: [getStarredContacts, getTime, getChatHistory],
   handoffs: [setReminderandMeetAgent],
   outputGuardrails: [agentGuardrail],
+  inputGuardrails: [inputGuardrails],
 });
 
 export const runAgent = async (
