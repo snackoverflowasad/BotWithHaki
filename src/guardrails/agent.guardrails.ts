@@ -1,92 +1,30 @@
-import { Agent, InputGuardrail, OutputGuardrail, run } from "@openai/agents";
-import z from "zod";
-// import { handleMessages } from "../services/messageHandler.service.js";
+import { InputGuardrail, OutputGuardrail } from "@openai/agents";
 
-// output guardrails
+/**
+ * Output guardrail — pass-through (no filtering).
+ * The agent handles tone-matching internally via its system prompt.
+ */
 export const agentGuardrail: OutputGuardrail = {
   name: "output_guardrail",
-  execute: async (args) => {
-    try {
-      const agentOutput = args.agentOutput as string;
-      const res = await run(checkOutput, agentOutput);
-      const isSafe = res.finalOutput?.isSafe === true;
-      return {
-        outputInfo: res.finalOutput?.outputInfo ?? null,
-        tripwireTriggered: !isSafe,
-      };
-    } catch (error) {
-      console.error("Guardrail execution error:", error);
-      return {
-        outputInfo: "Guardrail internal error",
-        tripwireTriggered: false,
-      };
-    }
+  execute: async () => {
+    return {
+      outputInfo: null,
+      tripwireTriggered: false,
+    };
   },
 };
 
-const checkOutput = new Agent({
-  name: "Output checker",
-  instructions:
-    "Validates the agent's response to ensure it is safe, appropriate, and free from offensive language before sending it to the user.",
-  outputType: z.object({
-    outputInfo: z.string().optional().describe("reason why it is not safe"),
-    isSafe: z.boolean().describe("if output is safe"),
-  }),
-});
-
-// input guardrails
+/**
+ * Input guardrail — pass-through (no filtering).
+ * All user messages are forwarded to the agent without restriction.
+ */
 export const inputGuardrails: InputGuardrail = {
   name: "input_guardrail",
-  execute: async (args) => {
-    try {
-      const userMessage = args.input as string;
-      const res = await run(checkInput, userMessage);
-      const isSafe = res.finalOutput?.isSafe === true;
-      return {
-        inputInfo: res.finalOutput?.inputInfo ?? null,
-        outputInfo: res.finalOutput?.inputInfo ?? null,
-        tripwireTriggered: !isSafe,
-      };
-    } catch (error) {
-      console.error("Guardrail execution error:", error);
-      return {
-        inputInfo: "Guardrail internal error",
-        outputInfo: "Guardrail internal error",
-        tripwireTriggered: false,
-      };
-    }
+  execute: async () => {
+    return {
+      inputInfo: null,
+      outputInfo: null,
+      tripwireTriggered: false,
+    };
   },
 };
-
-const checkInput = new Agent({
-  name: "Input checker",
-  instructions: `Validate user input before sending it to the agent.
-                 -  Ensure the input is:
-                 -  Safe and appropriate
-                 -  Free from offensive, abusive, or harmful language
-                 -  Clear and concise
-                 -  Related to the user’s request or context
-                 -  Clear and understandable
-                 -  If the input contains offensive or unsafe content:
-                 -  Do NOT send it to the agent.
-                 -  No GF/BF thing or specifically couple related thing.
-                 -  Ask the user to rephrase politely.
-                 -  If the input is unclear, incomplete, or confusing:
-                 -  Do NOT forward it directly.
-                 -  Ask a clarifying question to help fix the prompt.
-                 -  If the input is valid:
-                 -  Forward it to the agent without modification (or after minor cleaning like trimming spaces).
-                 -  When asking for clarification:
-                 -  Be polite and helpful.
-                 -  Guide the user toward writing a clear and specific prompt.`,
-  outputType: z.object({
-    inputInfo: z
-      .string()
-      .optional()
-      .describe("Reason or additional information about the validation result"),
-
-    isSafe: z
-      .boolean()
-      .describe("Indicates whether the user input is safe and appropriate"),
-  }),
-});
