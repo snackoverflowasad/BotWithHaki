@@ -49,7 +49,7 @@ export const runBot = async (): Promise<void> => {
   // Validate keys exist
   if (!openaiKey) {
     console.log(pc.red("  ✗ OpenAI API key not found!"));
-    console.log(pc.dim("    Run 'botwithaki init' to set up, or create a .env with OPENAI_API_KEY."));
+    console.log(pc.dim("    Run 'Chat-Buddy init' to set up, or create a .env with OPENAI_API_KEY."));
     process.exit(1);
   }
 
