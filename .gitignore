@@ -6,3 +6,4 @@ dist/
 src/data
 credentials.json
 token.json
+.botwithaki/
