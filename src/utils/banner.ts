@@ -24,7 +24,7 @@ export const getBanner = async (agentName: string = "Bot", username: string = "U
   console.clear();
   console.log(pc.green(center(banner.trim(), width)));
   console.log();
-  console.log(pc.bold(pc.green(center("🤖 BotWithHaki — WhatsApp AI Bot", width))));
+  console.log(pc.bold(pc.green(center("🤖 Chat-Buddy — WhatsApp AI Bot", width))));
   console.log(pc.dim(center("Automate • Reply • Schedule • Assist", width)));
   console.log(pc.dim(center("────────────────────────────────────", width)));
 
