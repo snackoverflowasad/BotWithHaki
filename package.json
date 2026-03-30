@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/snackoverflowasad/BotWithHaki"
+    "url": "git+https://github.com/snackoverflowasad/BotWithHaki.git"
   },
   "license": "MIT",
   "author": "Asad Hussain",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "chat-buddy": "./dist/cli/index.js"
+    "chat-buddy": "dist/cli/index.js"
   },
   "files": [
     "dist",
@@ -38,6 +38,7 @@
     "start": "node dist/cli/index.js run",
     "init": "node dist/cli/index.js init",
     "log": "node dist/utils/localAuth.js",
+    "reset": "node dist/cli/resetHandler.js reset",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
