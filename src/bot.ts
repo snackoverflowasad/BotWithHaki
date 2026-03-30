@@ -67,6 +67,7 @@ export class WhatsAppBot {
   }
 
   public start() {
+    // resetHandler(this.client);
     this.client.initialize().catch((err) => {
       console.log(err);
     });
