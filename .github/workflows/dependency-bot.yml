@@ -1,5 +1,8 @@
 name: Dependency Update Bot
 
+permissions:
+  contents: write
+
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -13,30 +16,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "lts/*"
 
-      - name: Install dependencies
-        run: npm install
+      - run: npm install
+      - run: npm update
 
-      - name: Update dependencies
-        run: npm update
-
-      - name: Check for changes
-        id: changes
+      - id: changes
         run: |
           git diff --quiet || echo "changed=true" >> $GITHUB_OUTPUT
 
-      - name: Commit and push updates
-        if: steps.changes.outputs.changed == 'true'
+      - if: steps.changes.outputs.changed == 'true'
         run: |
-          git config --global user.name "Asad-bot07"
-          git config --global user.email "asadhussain2408@gmail.com"
+          git config --global user.name "Asad Hussain"
+          git config --global user.email "your-github-email@example.com"
           git add .
           git commit -m "chore: automated dependency update"
           git push
