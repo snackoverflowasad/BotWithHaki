@@ -1,6 +1,8 @@
+![Chat Buddy Preview](public/preview.png)
+
 <div align="center">
 
-# 🤖 Chat Buddy
+# Chat Buddy
 
 [![npm version](https://img.shields.io/npm/v/chat-buddy?style=for-the-badge&color=CB3837&logo=npm&logoColor=white)](https://www.npmjs.com/package/chat-buddy)
 [![npm downloads](https://img.shields.io/npm/dm/chat-buddy?style=for-the-badge&color=0576b9&logo=npm&logoColor=white)](https://www.npmjs.com/package/chat-buddy)
@@ -13,51 +15,53 @@ Built with the OpenAI Agents SDK · Custom Tools · Per-User Memory · Guardrail
 
 ---
 
-[Installation](#-installation) · [Quick Start](#-quick-start) · [Commands](#-commands) · [Architecture](#%EF%B8%8F-architecture) · [Chat Commands](#-in-chat-commands) · [Security](#-security--privacy)
+[Installation](#installation) · [Quick Start](#quick-start) · [Commands](#commands) · [Architecture](#architecture) · [Chat Commands](#in-chat-commands) · [Security](#security--privacy)
 
 </div>
 
 ---
 
-## 📖 What is Chat Buddy?
+## What is Chat Buddy?
 
 **Chat Buddy** is an AI-powered WhatsApp assistant that runs entirely from your terminal. It acts as your personal proxy — answering messages, scheduling calendar events, and managing chats with a personality you define.
 
-### ✨ Highlights
+### Highlights
 
 | Feature | Description |
 |---------|-------------|
-| 🧠 **Agentic Core** | Powered by the OpenAI Agents SDK with dynamic tool-calling |
-| 💬 **Short-Term Memory** | Per-user conversation context for natural, flowing replies |
-| 🔐 **AES-256 Encryption** | API keys encrypted locally — never stored in plain text |
-| 🛡️ **Guardrails** | Output validation layer blocks unsafe or off-brand responses |
-| 📅 **Google Calendar** | Schedule meetings & reminders directly from WhatsApp |
-| 🌐 **Zero Config Deploy** | Install globally, run the wizard, scan QR — done |
+| **Agentic Core** | Powered by the OpenAI Agents SDK with dynamic tool-calling |
+| **Short-Term Memory** | Per-user conversation context for natural, flowing replies |
+| **AES-256 Encryption** | API keys encrypted locally — never stored in plain text |
+| **Guardrails** | Output validation layer blocks unsafe or off-brand responses |
+| **Google Calendar** | Schedule meetings & reminders directly from WhatsApp |
+| **Zero Config Deploy** | Install globally, run the wizard, scan QR — done |
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 # Install globally
 npm i -g chat-buddy
 
-# Or use directly with npx (no install needed)
+# Or run without global install
 npx chat-buddy init
 ```
+
+Use `chat-buddy <command>` after global install. Use `npx chat-buddy <command>` only if not installed globally.
 
 > **Requirements:** Node.js ≥ 18.0.0
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Step 1 — Run the interactive setup wizard
-npx chat-buddy init
+chat-buddy init
 
 # Step 2 — Start the bot
-npx chat-buddy run
+chat-buddy run
 
 # Step 3 — Scan the QR code in WhatsApp → Linked Devices → Link a Device
 ```
@@ -66,14 +70,14 @@ That's it. Your AI assistant is now live on WhatsApp.
 
 ---
 
-## 🛠 Commands
+## Commands
 
 Chat Buddy provides a full CLI to manage your bot lifecycle:
 
 ### `chat-buddy init`
 
 ```bash
-npx chat-buddy init
+chat-buddy init
 ```
 
 Launches the **interactive setup wizard**. You'll be prompted to enter:
@@ -87,14 +91,14 @@ Launches the **interactive setup wizard**. You'll be prompted to enter:
 
 All secrets are **encrypted with AES-256-CBC** and stored at `~/.botwithaki/config.json`. They are never sent anywhere except to the respective API services.
 
-> ⚠️ Running `init` again will **overwrite** your existing configuration.
+> Running `init` again will **overwrite** your existing configuration.
 
 ---
 
 ### `chat-buddy run`
 
 ```bash
-npx chat-buddy run
+chat-buddy run
 ```
 
 Starts the WhatsApp bot. This command:
@@ -124,32 +128,36 @@ Open WhatsApp → **Settings** → **Linked Devices** → **Link a Device** → 
 ### `chat-buddy login` (alias: `chat-buddy log`)
 
 ```bash
-npx chat-buddy login
+chat-buddy login
 ```
 
-Generates a **Google Calendar OAuth token** (`token.json`) by opening the Google consent screen in your browser.
+Generates a **Google Calendar OAuth token** by opening the Google consent screen in your browser.
 
 | Detail | Value |
 |--------|-------|
 | **Scope** | `https://www.googleapis.com/auth/calendar` |
-| **Requires** | `credentials.json` in your working directory |
-| **Output** | `token.json` saved to your working directory |
+| **Requires** | OAuth credentials (auto-discovered or prompted) |
+| **Output** | `~/.botwithaki/google/token.json` |
 
 This is required for the bot's calendar features (scheduling meetings, setting reminders).
 
-> **How to get `credentials.json`:**
+> **Credentials note:**
+> You do not need to manually place `credentials.json` in your working directory anymore.
+> `chat-buddy login` will auto-discover credentials from supported locations or prompt once for OAuth Client ID and Client Secret.
+>
+> **If you still prefer manual `credentials.json` setup:**
 > 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 > 2. Create a project → Enable the **Google Calendar API**
 > 3. Create **OAuth 2.0 credentials** (Desktop App type)
 > 4. Download the JSON and rename it to `credentials.json`
-> 5. Place it in the directory where you run `chat-buddy`
+> 5. Place it in your current directory or set `GOOGLE_OAUTH_CREDENTIALS_PATH`
 
 ---
 
 ### `chat-buddy key`
 
 ```bash
-npx chat-buddy key
+chat-buddy key
 ```
 
 **Rotate your API keys** without re-running the full setup wizard. Useful when:
@@ -163,15 +171,15 @@ npx chat-buddy key
 3. Re-encrypts and saves the updated config instantly
 
 ```
-  🔄 API Key Rotation
+   API Key Rotation
   ─────────────────────────────────────────
 
   Leave a field blank to keep the current key.
 
-  ➤ New OpenAI API key (sk-...): sk-proj-new-key-here
-  ➤ New Google API key (AIza...):            ← left blank, keeps existing
+   New OpenAI API key (sk-...): sk-proj-new-key-here
+   New Google API key (AIza...):            ← left blank, keeps existing
 
-  ✔ API keys updated securely!
+   API keys updated securely!
 ```
 
 ---
@@ -179,47 +187,47 @@ npx chat-buddy key
 ### `chat-buddy new --config`
 
 ```bash
-npx chat-buddy new --config
+chat-buddy new --config
 ```
 
 The **all-in-one reconfiguration** command. Use this when you want to give your bot a fresh start:
 
 | Step | Action |
 |------|--------|
-| 🤖 **Rename Agent** | Change the bot's agent name (e.g. "Luffy" → "Jarvis") |
-| 🔑 **Rotate Keys** | Enter new OpenAI and/or Google API keys |
-| 🗑️ **Reset WhatsApp** | Deletes the saved WhatsApp session (`~/.botwithaki/.wwebjs_auth`) |
-| 🗑️ **Reset Google** | Deletes the Google OAuth token (`token.json`) |
+| **Rename Agent** | Change the bot's agent name (e.g. "Luffy" → "Jarvis") |
+| **Rotate Keys** | Enter new OpenAI and/or Google API keys |
+| **Reset WhatsApp** | Deletes the saved WhatsApp session (`~/.botwithaki/.wwebjs_auth`) |
+| **Reset Google** | Deletes the Google OAuth token (`~/.botwithaki/google/token.json`) |
 
 After running this, the next `chat-buddy run` will require a fresh QR scan and (optionally) re-running `chat-buddy login` for calendar access.
 
 ```
-  ⚡ Chat-Buddy — Full Reconfiguration
+   Chat-Buddy — Full Reconfiguration
   ─────────────────────────────────────────
 
-  🤖 New Agent Identity
+   New Agent Identity
      Current agent name: Luffy
-  ➤ New agent name (leave blank to keep): Jarvis
+   New agent name (leave blank to keep): Jarvis
 
-  🔑 API Key Rotation
+   API Key Rotation
      Leave blank to keep the current key.
-  ➤ New OpenAI API key (sk-...):
-  ➤ New Google API key (AIza...):
+   New OpenAI API key (sk-...):
+   New Google API key (AIza...):
 
-  🗑  Clearing auth sessions...
-     ✓ WhatsApp session cleared
-     ✓ Google token removed
+  Clearing auth sessions...
+     WhatsApp session cleared
+     Google token removed
 
-  ✔ Reconfiguration complete!
+   Reconfiguration complete!
 
-  ✓ Agent name: Jarvis
-  ✓ API keys updated securely
-  ✓ Auth sessions cleared — re-scan QR on next run
+   Agent name: Jarvis
+   API keys updated securely
+   Auth sessions cleared — re-scan QR on next run
 ```
 
 ---
 
-## ⚙️ Architecture
+## Architecture
 
 ```
 ┌──────────────────────────────────────────────────┐
@@ -259,7 +267,7 @@ After running this, the next `chat-buddy run` will require a fresh QR scan and (
 
 ---
 
-## 💬 In-Chat Commands
+## In-Chat Commands
 
 These commands can be sent directly in any WhatsApp chat to control the bot:
 
@@ -272,7 +280,7 @@ These commands can be sent directly in any WhatsApp chat to control the bot:
 
 ---
 
-## 🗂 Project Structure
+## Project Structure
 
 ```
 BotWithHaki/
@@ -297,7 +305,7 @@ BotWithHaki/
 
 ---
 
-## 🔒 Security & Privacy
+## Security & Privacy
 
 | Layer | How it works |
 |-------|-------------|
@@ -308,12 +316,12 @@ BotWithHaki/
 
 ---
 
-## 🔧 Development
+## Development
 
 ```bash
 # Clone the repo
-git clone https://github.com/shouri123/BotWithHaki.git
-cd BotWithHaki
+git clone https://github.com/snackoverflowasad/chat-buddy.git
+cd chat-buddy
 
 # Install dependencies
 npm install
@@ -333,7 +341,7 @@ These come from `whatsapp-web.js` internals and do not affect functionality.
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **[MIT License](LICENSE)**.
 
@@ -341,7 +349,7 @@ This project is licensed under the **[MIT License](LICENSE)**.
 
 <div align="center">
 
-**Built with ❤️ by [Asad Hussain](https://www.asadhussain.in/)**
+**Built with love by [Asad Hussain](https://www.asadhussain.in/)**
 
 [![GitHub](https://img.shields.io/badge/GitHub-snackoverflowasad-181717?style=for-the-badge&logo=github)](https://github.com/snackoverflowasad)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Asad%20Hussain-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/asad-hussain-765502319/)
