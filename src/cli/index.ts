@@ -16,6 +16,7 @@ import {
   getStorageDir,
   type BotConfig,
 } from "../storage/configStore.js";
+import { getGoogleTokenCleanupPaths } from "../config/googleOAuthPaths.js";
 
 const program = new Command();
 
@@ -50,10 +51,11 @@ program
     }
   });
 
-// ─── log ────────────────────────────────────────────────────────────────────
+// ─── login / log ────────────────────────────────────────────────────────────
 program
-  .command("log")
-  .description("Generate a Google Calendar OAuth token (replaces npm run log)")
+  .command("login")
+  .alias("log")
+  .description("Open Google login and generate a Calendar OAuth token")
   .action(async () => {
     try {
       console.log();
@@ -61,12 +63,12 @@ program
       console.log(pc.dim("  ─────────────────────────────────────────"));
       console.log();
 
-      const { generateGoogleToken } = await import("../utils/localAuth.js");
+      const { generateGoogleToken } = await import("../config/localAuth.js");
       const spinner = ora({ text: "Authenticating with Google...", color: "green" }).start();
 
       try {
         await generateGoogleToken();
-        spinner.succeed("Google token generated and saved to token.json!");
+        spinner.succeed("Google login completed and token saved.");
       } catch (err: any) {
         spinner.fail("Google authentication failed.");
         console.log(pc.red(`  ✗ ${err.message}`));
@@ -75,7 +77,7 @@ program
 
       console.log();
     } catch (error) {
-      console.error("Log command failed:", error);
+      console.error("Login command failed:", error);
       process.exit(1);
     }
   });
@@ -198,10 +200,15 @@ program
         console.log(pc.dim("     – No WhatsApp session found"));
       }
 
-      // Delete Google token
-      const tokenPath = path.join(process.cwd(), "token.json");
-      if (fs.existsSync(tokenPath)) {
-        fs.unlinkSync(tokenPath);
+      // Delete Google token(s)
+      let deletedAnyToken = false;
+      for (const tokenPath of getGoogleTokenCleanupPaths()) {
+        if (fs.existsSync(tokenPath)) {
+          fs.unlinkSync(tokenPath);
+          deletedAnyToken = true;
+        }
+      }
+      if (deletedAnyToken) {
         console.log(pc.green("     ✓ Google token removed"));
       } else {
         console.log(pc.dim("     – No Google token found"));
