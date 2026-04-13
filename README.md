@@ -40,6 +40,7 @@ Built with the OpenAI Agents SDK · Custom Tools · Per-User Memory · Guardrail
 ---
 
 ## Installation
+![Demo](./public/tutorial.gif)
 
 ```bash
 # Install globally
