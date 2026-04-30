@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.env
+*.log
+.git/
+.github/
+.gitignore
+.npmignore
+.wwebjs_cache/
+.wwebjs_auth/
+.botwithaki/
+credentials.json
+chat-buddy-*.tgz

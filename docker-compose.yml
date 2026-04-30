@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  chat-buddy-dev:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    container_name: chat-buddy-dev
+    hostname: chat-buddy-host
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - CHAT_BUDDY_RESPONSE_DEBOUNCE_MS=${CHAT_BUDDY_RESPONSE_DEBOUNCE_MS:-2200}
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - chat-buddy-data:/root/.botwithaki
+    command: npm run dev
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+volumes:
+  chat-buddy-data:
