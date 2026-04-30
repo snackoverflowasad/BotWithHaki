@@ -15,7 +15,7 @@ Built with the OpenAI Agents SDK · Custom Tools · Per-User Memory · Guardrail
 
 ---
 
-[Installation](#installation) · [Quick Start](#quick-start) · [Commands](#commands) · [Message Debounce and Token Optimization](#message-debounce-and-token-optimization) · [Architecture](#architecture) · [Chat Commands](#in-chat-commands) · [Security](#security--privacy)
+[Installation](#installation) · [Quick Start](#quick-start) · [Commands](#commands) · [Docker](#running-with-docker) · [Message Debounce and Token Optimization](#message-debounce-and-token-optimization) · [Architecture](#architecture) · [Chat Commands](#in-chat-commands) · [Security](#security--privacy) · [Contributing](#contributing)
 
 </div>
 
@@ -417,6 +417,26 @@ BotWithHaki/
 
 ---
 
+## Running with Docker
+
+Chat Buddy includes a fully configured Docker setup. You can run the bot without installing Node.js or Chromium locally.
+
+1. Ensure you have [Docker](https://docs.docker.com/get-docker/) and `docker-compose` installed.
+2. Clone the repository and navigate into it.
+3. Start the bot interactively:
+   ```bash
+   docker-compose run --rm chat-buddy
+   ```
+4. If this is your first time, you can run the setup wizard inside Docker:
+   ```bash
+   docker-compose run --rm chat-buddy npm run init
+   ```
+   *(Note: The QR code and prompts will appear directly in your terminal).*
+
+Your configuration, WhatsApp session, and Google tokens are automatically persisted in a Docker volume so you don't lose them when the container stops.
+
+---
+
 ## Development
 
 ```bash
@@ -439,6 +459,14 @@ npm run dev
 ## Installation Notes
 Some deprecation warnings may appear during `npm install`. 
 These come from `whatsapp-web.js` internals and do not affect functionality.
+
+---
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for more details on how to get started.
+
+Please also adhere to our [Code of Conduct](CODE_OF_CONDUCT.md) when participating in this project.
 
 ---
 
