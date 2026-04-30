@@ -36,7 +36,7 @@ export const createReminderTool = tool({
       return {
         success: true,
         message: "Reminder created successfully",
-        eventId: (result as any /* eslint-disable-line @typescript-eslint/no-explicit-any */)?.id,
+        eventId: (result as any) /* eslint-disable-line @typescript-eslint/no-explicit-any */?.id,
         scheduledFor: input.date,
       };
     } catch (error: any /* eslint-disable-line @typescript-eslint/no-explicit-any */) {
