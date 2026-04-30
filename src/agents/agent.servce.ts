@@ -5,7 +5,7 @@
  */
 import { Agent, run } from "@openai/agents";
 import { createProtocols } from "../config/agent.protocol.js";
-import { getStarredContacts } from "../tools/contact.tool.js";
+
 import { getUserHistoryForContext } from "../storage/chatHistoryStore.js";
 import { getTime } from "../tools/time.tool.js";
 import { getChatHistory } from "../tools/getHistory.js";
@@ -49,7 +49,7 @@ export const runAgent = async (
               - Always generate ISO datetime using Asia/Kolkata timezone (UTC+05:30).
               - If the user says bye, goodbye, or similar, respond with a proper farewell.
               - NEVER say "hey", "hello", or "hi" unless the user greeted first.`,
-    tools: [getStarredContacts, getTime, getChatHistory],
+    tools: [getTime, getChatHistory],
     handoffs: [setReminderandMeetAgent],
   });
 
