@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0]
+### Added
+- Refactored the codebase to improve safety and robustness, preparing it for production use as the project scales into a more mature open-source initiative.
+
 ## [1.3.0]
 ### Added
 - **Smarter Replies, Fewer Tokens**: Implemented a message debounce system to merge rapid consecutive messages from the same user into a single batched prompt.
