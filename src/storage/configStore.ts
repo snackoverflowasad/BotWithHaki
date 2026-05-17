@@ -83,8 +83,12 @@ export const saveConfig = (config: BotConfig): void => {
     agentName: config.agentName,
     openaiApiKey: encrypt(config.openaiApiKey),
     enableGoogleCalendar: config.enableGoogleCalendar,
-    googleOAuthClientId: config.googleOAuthClientId ? encrypt(config.googleOAuthClientId) : undefined,
-    googleOAuthClientSecret: config.googleOAuthClientSecret ? encrypt(config.googleOAuthClientSecret) : undefined,
+    googleOAuthClientId: config.googleOAuthClientId
+      ? encrypt(config.googleOAuthClientId)
+      : undefined,
+    googleOAuthClientSecret: config.googleOAuthClientSecret
+      ? encrypt(config.googleOAuthClientSecret)
+      : undefined,
     allowGroupReplies: config.allowGroupReplies,
     timezone: config.timezone,
   };
@@ -112,8 +116,12 @@ export const loadConfig = (): BotConfig | null => {
     const configVersion = raw.configVersion || 1;
 
     let enableGoogleCalendar = raw.enableGoogleCalendar ?? false;
-    let clientId: string | undefined = raw.googleOAuthClientId ? decrypt(raw.googleOAuthClientId) : undefined;
-    let clientSecret: string | undefined = raw.googleOAuthClientSecret ? decrypt(raw.googleOAuthClientSecret) : undefined;
+    let clientId: string | undefined = raw.googleOAuthClientId
+      ? decrypt(raw.googleOAuthClientId)
+      : undefined;
+    let clientSecret: string | undefined = raw.googleOAuthClientSecret
+      ? decrypt(raw.googleOAuthClientSecret)
+      : undefined;
 
     if (configVersion === 1) {
       const legacyBlob = raw.googleOAuthCredentials || raw.googleApiKey;

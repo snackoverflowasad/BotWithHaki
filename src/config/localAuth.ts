@@ -5,10 +5,7 @@ import { authenticate } from "@google-cloud/local-auth";
 import fs from "fs";
 import * as readline from "readline/promises";
 import { stdin as input, stdout as output } from "process";
-import {
-  resolveGoogleTokenPath,
-  writeCredentialsJson,
-} from "./googleOAuthPaths.js";
+import { resolveGoogleTokenPath, writeCredentialsJson } from "./googleOAuthPaths.js";
 import { loadConfig } from "../storage/configStore.js";
 import { resolveAuthContext, getGoogleCredentialsJson } from "../auth/googleAuth.js";
 
@@ -48,7 +45,7 @@ export async function generateGoogleToken(): Promise<void> {
   let credPath: string | null = null;
   const config = loadConfig();
   const authContext = resolveAuthContext(config || undefined);
-  
+
   if (authContext) {
     const jsonString = getGoogleCredentialsJson(authContext);
     credPath = writeCredentialsJson(jsonString);

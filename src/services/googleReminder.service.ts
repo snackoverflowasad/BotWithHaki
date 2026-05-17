@@ -24,7 +24,7 @@ export const createReminder = async (
       ],
     },
   };
-  
+
   const authClient = getAuthedClient();
 
   return await createEvent(authClient, event);

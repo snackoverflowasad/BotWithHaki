@@ -88,7 +88,9 @@ export const runInit = async (): Promise<void> => {
       googleOAuthClientId = await ask(rl, "Google OAuth Client ID");
       googleOAuthClientSecret = await ask(rl, "Google OAuth Client Secret");
       if (!googleOAuthClientId || !googleOAuthClientSecret) {
-        console.log(pc.red("  ✗ Client ID and Client Secret are required when Google Calendar is enabled."));
+        console.log(
+          pc.red("  ✗ Client ID and Client Secret are required when Google Calendar is enabled."),
+        );
         rl.close();
         return;
       }

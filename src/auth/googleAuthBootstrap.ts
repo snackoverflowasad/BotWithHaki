@@ -16,7 +16,10 @@ export const getAuthedClient = () => {
   const context = resolveAuthContext(config || undefined);
 
   if (!context) {
-    throw new GoogleAuthError("Google Calendar integration is not configured. Run 'chat-buddy init' or set environment variables.", "NO_CONFIG");
+    throw new GoogleAuthError(
+      "Google Calendar integration is not configured. Run 'chat-buddy init' or set environment variables.",
+      "NO_CONFIG",
+    );
   }
 
   return buildAuthedClient(context);

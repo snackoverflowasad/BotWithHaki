@@ -56,7 +56,9 @@ export const runBot = async (): Promise<void> => {
   const googleAuth = resolveAuthContext(config || undefined);
   if (!googleAuth) {
     console.log(
-      pc.yellow("  ⚠ Google Calendar integration is disabled or credentials not found. Calendar features will be disabled."),
+      pc.yellow(
+        "  ⚠ Google Calendar integration is disabled or credentials not found. Calendar features will be disabled.",
+      ),
     );
   } else {
     console.log(pc.green(`  ✓ Google Calendar features enabled (${googleAuth.source}).`));

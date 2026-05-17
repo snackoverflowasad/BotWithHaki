@@ -30,7 +30,10 @@ export const createBaseEvent = (
   };
 };
 
-export const createEvent = async (auth: any /* eslint-disable-line @typescript-eslint/no-explicit-any */, event: EventType): Promise<calendar_v3.Schema$Event> => {
+export const createEvent = async (
+  auth: any /* eslint-disable-line @typescript-eslint/no-explicit-any */,
+  event: EventType,
+): Promise<calendar_v3.Schema$Event> => {
   const cal = google.calendar({
     version: "v3",
     auth,
@@ -52,7 +55,10 @@ export const createEvent = async (auth: any /* eslint-disable-line @typescript-e
       if (fs.existsSync(tokenPath)) {
         fs.unlinkSync(tokenPath);
       }
-      throw new GoogleAuthError("Google Calendar token expired or revoked. Run 'chat-buddy login' to re-authenticate.", "INVALID_AUTH");
+      throw new GoogleAuthError(
+        "Google Calendar token expired or revoked. Run 'chat-buddy login' to re-authenticate.",
+        "INVALID_AUTH",
+      );
     }
     throw error;
   }

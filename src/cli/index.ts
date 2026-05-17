@@ -110,10 +110,16 @@ program
       console.log(pc.dim("  Leave a field blank to keep the current key.\n"));
 
       const newOpenai = await rl.question(pc.cyan("  ➤ New OpenAI API key (sk-...): "));
-      
-      console.log(pc.dim(`\n  Current Google Calendar integration is: ${activeConfig.enableGoogleCalendar ? "Enabled" : "Disabled"}`));
-      const newGoogleEnable = await rl.question(pc.cyan("  ➤ Enable Google Calendar? (y/N/blank to keep current): "));
-      
+
+      console.log(
+        pc.dim(
+          `\n  Current Google Calendar integration is: ${activeConfig.enableGoogleCalendar ? "Enabled" : "Disabled"}`,
+        ),
+      );
+      const newGoogleEnable = await rl.question(
+        pc.cyan("  ➤ Enable Google Calendar? (y/N/blank to keep current): "),
+      );
+
       let enableGoogleCalendar = activeConfig.enableGoogleCalendar;
       if (newGoogleEnable.trim().toLowerCase() === "y") enableGoogleCalendar = true;
       if (newGoogleEnable.trim().toLowerCase() === "n") enableGoogleCalendar = false;
@@ -122,8 +128,12 @@ program
       let newGoogleClientSecret = "";
 
       if (enableGoogleCalendar) {
-        newGoogleClientId = await rl.question(pc.cyan("  ➤ New Google OAuth Client ID (leave blank to keep current): "));
-        newGoogleClientSecret = await rl.question(pc.cyan("  ➤ New Google OAuth Client Secret (leave blank to keep current): "));
+        newGoogleClientId = await rl.question(
+          pc.cyan("  ➤ New Google OAuth Client ID (leave blank to keep current): "),
+        );
+        newGoogleClientSecret = await rl.question(
+          pc.cyan("  ➤ New Google OAuth Client Secret (leave blank to keep current): "),
+        );
       }
 
       rl.close();
@@ -191,9 +201,15 @@ program
       console.log(pc.dim("     Leave blank to keep the current key.\n"));
       const newOpenai = await rl.question(pc.cyan("  ➤ New OpenAI API key (sk-...): "));
 
-      console.log(pc.dim(`\n  Current Google Calendar integration is: ${activeConfig.enableGoogleCalendar ? "Enabled" : "Disabled"}`));
-      const newGoogleEnable = await rl.question(pc.cyan("  ➤ Enable Google Calendar? (y/N/blank to keep current): "));
-      
+      console.log(
+        pc.dim(
+          `\n  Current Google Calendar integration is: ${activeConfig.enableGoogleCalendar ? "Enabled" : "Disabled"}`,
+        ),
+      );
+      const newGoogleEnable = await rl.question(
+        pc.cyan("  ➤ Enable Google Calendar? (y/N/blank to keep current): "),
+      );
+
       let enableGoogleCalendar = activeConfig.enableGoogleCalendar;
       if (newGoogleEnable.trim().toLowerCase() === "y") enableGoogleCalendar = true;
       if (newGoogleEnable.trim().toLowerCase() === "n") enableGoogleCalendar = false;
@@ -202,8 +218,12 @@ program
       let newGoogleClientSecret = "";
 
       if (enableGoogleCalendar) {
-        newGoogleClientId = await rl.question(pc.cyan("  ➤ New Google OAuth Client ID (leave blank to keep current): "));
-        newGoogleClientSecret = await rl.question(pc.cyan("  ➤ New Google OAuth Client Secret (leave blank to keep current): "));
+        newGoogleClientId = await rl.question(
+          pc.cyan("  ➤ New Google OAuth Client ID (leave blank to keep current): "),
+        );
+        newGoogleClientSecret = await rl.question(
+          pc.cyan("  ➤ New Google OAuth Client Secret (leave blank to keep current): "),
+        );
       }
 
       console.log();

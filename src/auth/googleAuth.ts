@@ -9,7 +9,7 @@ import { resolveGoogleTokenPath } from "../config/googleOAuthPaths.js";
 export class GoogleAuthError extends Error {
   constructor(
     message: string,
-    public code: "NO_CONFIG" | "NO_TOKEN" | "INVALID_AUTH"
+    public code: "NO_CONFIG" | "NO_TOKEN" | "INVALID_AUTH",
   ) {
     super(message);
     this.name = "GoogleAuthError";
@@ -36,7 +36,12 @@ export const resolveAuthContext = (config?: BotConfig): GoogleAuthContext | null
   }
 
   // Encrypted config
-  if (config && config.enableGoogleCalendar && config.googleOAuthClientId && config.googleOAuthClientSecret) {
+  if (
+    config &&
+    config.enableGoogleCalendar &&
+    config.googleOAuthClientId &&
+    config.googleOAuthClientSecret
+  ) {
     return {
       clientId: config.googleOAuthClientId,
       clientSecret: config.googleOAuthClientSecret,
@@ -47,7 +52,10 @@ export const resolveAuthContext = (config?: BotConfig): GoogleAuthContext | null
   return null;
 };
 
-export const getGoogleCredentialsJson = (auth: GoogleAuthContext, redirectUri = "http://localhost"): string => {
+export const getGoogleCredentialsJson = (
+  auth: GoogleAuthContext,
+  redirectUri = "http://localhost",
+): string => {
   const credentials = {
     installed: {
       client_id: auth.clientId,
@@ -62,12 +70,11 @@ export const getGoogleCredentialsJson = (auth: GoogleAuthContext, redirectUri = 
   return JSON.stringify(credentials, null, 2);
 };
 
-export const loadOAuthClient = (authContext: GoogleAuthContext, redirectUri = "http://localhost") => {
-  return new google.auth.OAuth2(
-    authContext.clientId,
-    authContext.clientSecret,
-    redirectUri
-  );
+export const loadOAuthClient = (
+  authContext: GoogleAuthContext,
+  redirectUri = "http://localhost",
+) => {
+  return new google.auth.OAuth2(authContext.clientId, authContext.clientSecret, redirectUri);
 };
 
 export const loadToken = () => {
