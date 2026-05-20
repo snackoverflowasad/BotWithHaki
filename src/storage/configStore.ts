@@ -31,8 +31,16 @@ export const getConfigPath = (): string => {
 const ALGORITHM = "aes-256-cbc";
 const IV_LENGTH = 16;
 
+const getUsername = (): string => {
+  try {
+    return os.userInfo().username;
+  } catch {
+    return process.env.USER || process.env.USERNAME || "default-user";
+  }
+};
+
 const deriveKey = (): Buffer => {
-  const machineId = `${os.hostname()}::${os.userInfo().username}::botwithaki-secret-salt`;
+  const machineId = `${os.hostname()}::${getUsername()}::botwithaki-secret-salt`;
   return crypto.createHash("sha256").update(machineId).digest();
 };
 

@@ -15,7 +15,7 @@ Built with the OpenAI Agents SDK · Custom Tools · Per-User Memory · Guardrail
 
 ---
 
-[Installation](#installation) · [Quick Start](#quick-start) · [Commands](#commands) · [Architecture](#architecture) · [Chat Commands](#in-chat-commands) · [Docker](#running-with-docker) · [Troubleshooting](#troubleshooting) · [FAQ](#faq) · [Security](#security--privacy) · [Contributing](#contributing)
+[Installation](#installation) · [Quick Start](#quick-start) · [Commands](#commands) · [Architecture](#architecture) · [Chat Commands](#in-chat-commands) · [Docker](#running-with-docker) · [Testing](#testing-commands) · [Troubleshooting](#troubleshooting) · [FAQ](#faq) · [Security](#security--privacy) · [Contributing](#contributing)
 
 </div>
 
@@ -530,6 +530,33 @@ npm run build
 # Run in dev mode (build + start)
 npm run dev
 ```
+
+---
+
+## Testing Commands
+
+A robust testing and quality assurance setup is configured using [Vitest](https://vitest.dev/) for unit testing, [ESLint](https://eslint.org/) for linting, and [Prettier](https://prettier.io/) for code formatting checks.
+
+You can run the following commands during development:
+
+```bash
+# Run unit tests (one-time run)
+npm test
+
+# Run unit tests in watch mode
+npm run test:watch
+
+# Build the project (type check and compile)
+npm run build
+
+# Run ESLint to check for code style and quality issues
+npm run lint
+
+# Run Prettier to check if all files conform to the code formatting guidelines
+npm run format:check
+```
+
+*Testing setup contributed by [@bhavyanjain3004](https://github.com/bhavyanjain3004).*
 
 ---
 
